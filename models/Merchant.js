@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify')
+
 
 const MerchantSchema = new mongoose.Schema(
     {
@@ -7,7 +9,7 @@ const MerchantSchema = new mongoose.Schema(
             required: [true, 'Please add a name'],
             unique: true,
             trim: true,
-            maxlength: [50, 'Name cannot be more than 50 characters'] 
+            maxlength: [50, 'Name cannot be more than 50 characters']
         },
         slug: String,
         photo: {
@@ -18,4 +20,10 @@ const MerchantSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model('Merchant' , MerchantSchema)
+// Create merchant slug for the name
+MerchantSchema.pre('save', function (next) {
+    this.slug = slugify(this.name, { lower: true })
+    next()
+})
+
+module.exports = mongoose.model('Merchant', MerchantSchema)

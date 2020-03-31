@@ -1,0 +1,22 @@
+[
+  {
+    "_id": "5d713995b721c3bb38c1f5d0",
+    "category": "5d7a514b5d2c12c7449be046",
+    "name": "Amazon"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d1",
+    "category": "5d7a514b5d2c12c7449be047",
+    "name": "Uber"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d2",
+    "category": "5d7a514b5d2c12c7449be048",
+    "name": "Airbnb"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d3",
+    "category": "5d7a514b5d2c12c7449be048",
+    "name": "Booking"
+  }
+]

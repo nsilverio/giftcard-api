@@ -1,7 +1,5 @@
 # giftcard-api
 
-# masterclass-mongo-express
-
 1. Create package.json
 
 ```
@@ -14,7 +12,7 @@ npm init
    - Morgan: HTTP request logger middleware for node.js used to log morgan stream data
    - Mongoose: schema-based solution to model your application data
    - Colors: add colors to node.js console
-   - Slugify: slugify module for node.js,
+   - Slugify: slugify module for node.js
 
 ```
 npm i express dotenv morgan mongoose colors slugify

@@ -26,4 +26,5 @@ MerchantSchema.pre('save', function (next) {
     next()
 })
 
+
 module.exports = mongoose.model('Merchant', MerchantSchema)

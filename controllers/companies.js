@@ -7,7 +7,7 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/companies
 // @access  Public
 exports.getCompanies = asyncHandler(async (req, res, next) => {
-    let query = Company.find()
+    let query = Company.find().populate('users')
 
     const companies = await query;
 

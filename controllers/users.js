@@ -9,9 +9,16 @@ const asyncHandler = require('../middleware/async')
 exports.getUsers = asyncHandler(async (req, res, next) => {
     let query;
     if (req.params.companyId) {
-        query = Users.find({ company: req.params.companyId })
+        query = Users.find({ company: req.params.companyId }).populate({
+            path: 'company',
+            select: 'name currency'
+        })
     } else {
-        query = Users.find()
+        query = Users.find().populate({
+            path: 'company',
+            select: 'name currency'
+        })
+
     }
     const users = await query;
 

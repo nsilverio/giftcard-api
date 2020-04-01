@@ -18,8 +18,23 @@ exports.getCompanies = asyncHandler(async (req, res, next) => {
     })
 })
 
+// @desc    Create company
+// @route   POST /api/v1/companies
+// @access  Private
+exports.createCompany = asyncHandler(async (req, res, next) => {
+
+    const company = await Company.create(req.body)
+
+    // Corrected formated object ID that does not exist in the database
+    if (!company)
+        res.status(400).json({ success: false })
+
+    res.status(200).json({ success: true, data: company })
+})
+
+
 // @desc    Delete a company
-// @route   GET /api/v1/company/:id
+// @route   DELETE /api/v1/company/:id
 // @access  private
 exports.deleteCompany = asyncHandler(async (req, res, next) => {
     /* in order to trigger the cascade delete of users when a company is delete the 

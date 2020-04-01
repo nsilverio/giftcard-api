@@ -1,4 +1,5 @@
-const Users = require('../models/User')
+const User = require('../models/User')
+const Company = require('../models/Company')
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 
@@ -9,12 +10,12 @@ const asyncHandler = require('../middleware/async')
 exports.getUsers = asyncHandler(async (req, res, next) => {
     let query;
     if (req.params.companyId) {
-        query = Users.find({ company: req.params.companyId }).populate({
+        query = User.find({ company: req.params.companyId }).populate({
             path: 'company',
             select: 'name currency'
         })
     } else {
-        query = Users.find().populate({
+        query = User.find().populate({
             path: 'company',
             select: 'name currency'
         })
@@ -27,4 +28,38 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
         count: users.length,
         data: users
     })
+})
+
+// @desc    Get users
+// @route   GET /api/v1/users/:id
+// @access  Public
+exports.getUser = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.params.id).populate({
+        path: 'company',
+        select: 'name currency'
+    })
+    if (!user)
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
+
+    res.status(200).json({ success: true, data: user })
+})
+
+
+// @desc    Create User
+// @route   POST /api/v1/companies/:companyId/Users
+// @access  Private
+exports.createUser = asyncHandler(async (req, res, next) => {
+
+    req.body.company = req.params.companyId
+
+    const company = await Company.findById(req.params.companyId).populate({
+        path: 'company',
+        select: 'name currency'
+    })
+    if (!company)
+        return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
+
+    const user = await User.create(req.body)
+
+    res.status(200).json({ success: true, data: user })
 })

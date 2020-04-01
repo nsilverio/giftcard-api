@@ -1,22 +1,57 @@
 [
   {
     "_id": "5d713995b721c3bb38c1f5d0",
-    "category": "5d7a514b5d2c12c7449be046",
+    "category": "5d725c84c4ded7bcb480eaa0",
     "name": "Amazon"
   },
   {
     "_id": "5d713995b721c3bb38c1f5d1",
-    "category": "5d7a514b5d2c12c7449be047",
+    "category": "5d725c84c4ded7bcb480eaa1",
     "name": "Uber"
   },
   {
     "_id": "5d713995b721c3bb38c1f5d2",
-    "category": "5d7a514b5d2c12c7449be048",
+    "category": "5d725c84c4ded7bcb480eaa2",
     "name": "Airbnb"
   },
   {
     "_id": "5d713995b721c3bb38c1f5d3",
-    "category": "5d7a514b5d2c12c7449be048",
+    "category": "5d725c84c4ded7bcb480eaa2",
     "name": "Booking"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d4",
+    "category": "5d725c84c4ded7bcb480eaa3",
+    "name": "Starbucks"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5e4",
+    "category": "5d725c84c4ded7bcb480eaa3",
+    "name": "Just Eat"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d5",
+    "category": "5d725c84c4ded7bcb480eaa6",
+    "name": "Tesco"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f3d0",
+    "category": "5d725c84c4ded7bcb480eaa6",
+    "name": "Sainsburys"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d7",
+    "category": "5d725c84c4ded7bcb480eaa5",
+    "name": "Ikea"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d8",
+    "category": "5d725c84c4ded7bcb480eaa4",
+    "name": "Mark & Spencer"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1f5d9",
+    "category": "5d725c84c4ded7bcb480eaa4",
+    "name": "H&M"
   }
 ]

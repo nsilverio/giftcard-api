@@ -12,7 +12,11 @@ dotenv.config({ path: './config/config.env' });
 connectDB();
 
 // Route files
+const companies = require('./routes/companies')
 const merchants = require('./routes/merchants')
+const users = require('./routes/users')
+
+
 
 // Initialize express instance
 const app = express();
@@ -21,18 +25,20 @@ const app = express();
 app.use(express.json())
 
 // Logts to console when on dev enviroment
-if(process.env.NODE_ENV === 'development')
+if (process.env.NODE_ENV === 'development')
     app.use(morgan('dev'))
 
 // Mount routers
-app.use('/api/v1/merchants', merchants);
+app.use('/api/v1/companies', companies)
+app.use('/api/v1/merchants', merchants)
+app.use('/api/v1/users', users)
 
 // error handler 
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 7000
 
-const server = app.listen(PORT, 
+const server = app.listen(PORT,
     console.log(`Server rinning in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
 )
 
@@ -42,5 +48,5 @@ process.on('unhandledRejection', (err, promise) => {
 
     // Close server & exit process
     server.close(() => process.exit(1))
-    
+
 })

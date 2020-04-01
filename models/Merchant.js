@@ -12,9 +12,18 @@ const MerchantSchema = new mongoose.Schema(
             maxlength: [50, 'Name cannot be more than 50 characters']
         },
         category: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'Category',
-            required: true
+            type: String,
+            required: [true, 'Please add a category'],
+            enum: [
+                'Retail',
+                'Transportation',
+                'Hotels & BnB',
+                'Food delivery & Restaurants',
+                'Clothing, shoes & accessories',
+                'Furniture & home decor',
+                'Supermarkets'
+            ],
+            default: 'Retail'
         },
         slug: String,
         photo: {

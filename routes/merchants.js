@@ -6,11 +6,11 @@ const {
     createMerchant,
     updateMerchant,
     deleteMerchant
-} = require ('../controllers/merchants');
+} = require('../controllers/merchants');
 
 const router = express.Router()
 
-router 
+router
     .route('/')
     .get(getMerchants)
     .post(createMerchant)

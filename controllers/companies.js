@@ -17,3 +17,20 @@ exports.getCompanies = asyncHandler(async (req, res, next) => {
         data: companies
     })
 })
+
+// @desc    Delete a company
+// @route   GET /api/v1/company/:id
+// @access  private
+exports.deleteCompany = asyncHandler(async (req, res, next) => {
+    /* in order to trigger the cascade delete of users when a company is delete the 
+        method findByIdAndDelete should be replaced by findById and them remove() 
+    */
+    const company = await Company.findById(req.params.id)
+
+    if (!company)
+        return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404))
+
+    company.remove();
+
+    res.status(200).json({ success: true, data: {} })
+})

@@ -36,7 +36,6 @@ CompanySchema.pre('save', function (next) {
 })
 
 // reverse populate with virtuals
-
 CompanySchema.virtual('users', {
     ref: 'User',
     localField: '_id',
@@ -44,5 +43,14 @@ CompanySchema.virtual('users', {
     justOne: false
 })
 
+// cascade delete users when a company is deleted
+CompanySchema.pre('remove', async function (next) {
+    await this.model('User').deleteMany({ company: this._id })
+
+    console.log(`Users being deleted from company ${this.name}`)
+
+    next()
+
+})
 
 module.exports = mongoose.model('Company', CompanySchema);

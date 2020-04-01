@@ -16,8 +16,6 @@ const companies = require('./routes/companies')
 const merchants = require('./routes/merchants')
 const users = require('./routes/users')
 
-
-
 // Initialize express instance
 const app = express();
 

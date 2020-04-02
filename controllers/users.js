@@ -30,7 +30,7 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
     })
 })
 
-// @desc    Get users
+// @desc    Get user
 // @route   GET /api/v1/users/:id
 // @access  Public
 exports.getUser = asyncHandler(async (req, res, next) => {
@@ -62,4 +62,41 @@ exports.createUser = asyncHandler(async (req, res, next) => {
     const user = await User.create(req.body)
 
     res.status(200).json({ success: true, data: user })
+})
+
+// @desc    Update user
+// @route   PUT /api/v1/users/userId
+// @access  Private
+exports.updateUser = asyncHandler(async (req, res, next) => {
+
+    console.log('hii');
+
+    let user = await User.findById(req.params.id)
+
+    if (!user) {
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
+    }
+    user = await User.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    })
+
+    res.status(200).json({ success: true, data: user })
+})
+
+
+// @desc    Delete user
+// @route   DELETE /api/v1/user/userId
+// @access  Private
+exports.deleteUser = asyncHandler(async (req, res, next) => {
+
+    const user = await User.findById(req.params.id)
+
+    if (!user)
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
+
+
+    await user.remove()
+
+    res.status(200).json({ success: true, data: {} })
 })

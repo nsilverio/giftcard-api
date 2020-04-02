@@ -18,6 +18,22 @@ exports.getCompanies = asyncHandler(async (req, res, next) => {
     })
 })
 
+// @desc    Get company
+// @route   GET /api/v1/companies/companyId
+// @access  Public
+exports.getCompany = asyncHandler(async (req, res, next) => {
+    let company = await Company.findById(req.params.id).populate('users')
+
+    if (!company) {
+        return next(new ErrorResponse(`Company not found with id of ${req.params.id}`, 404))
+    }
+
+    res.status(200).json({
+        success: true,
+        data: company
+    })
+})
+
 // @desc    Create company
 // @route   POST /api/v1/companies
 // @access  Private
@@ -33,6 +49,25 @@ exports.createCompany = asyncHandler(async (req, res, next) => {
 })
 
 
+// @desc    Update company
+// @route   PUT /api/v1/companies/companyId
+// @access  Private
+exports.updateCompany = asyncHandler(async (req, res, next) => {
+
+    let company = await Company.findById(req.params.id)
+
+    if (!company) {
+        return next(new ErrorResponse(`Company not found with id of ${req.params.id}`, 404))
+
+    }
+
+    company = await Company.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    })
+    res.status(200).json({ success: true, data: company })
+})
+
 // @desc    Delete a company
 // @route   DELETE /api/v1/company/:id
 // @access  private
@@ -43,7 +78,7 @@ exports.deleteCompany = asyncHandler(async (req, res, next) => {
     const company = await Company.findById(req.params.id)
 
     if (!company)
-        return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404))
+        return next(new ErrorResponse(`Company not found with id of ${req.params.id}`, 404))
 
     company.remove();
 

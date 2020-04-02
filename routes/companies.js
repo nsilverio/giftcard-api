@@ -2,8 +2,10 @@ const express = require('express')
 
 const {
     getCompanies,
+    getCompany,
     deleteCompany,
-    createCompany
+    createCompany,
+    updateCompany,
 } = require('../controllers/companies')
 
 // Include other resource routers 
@@ -21,6 +23,9 @@ router
 
 router
     .route('/:id')
+    .get(getCompany)
+    .put(updateCompany)
     .delete(deleteCompany)
+
 
 module.exports = router;

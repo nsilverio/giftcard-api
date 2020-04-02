@@ -1,7 +1,12 @@
 [
-    {
-        "_id": "5d713995b721c3bb38c1fabc",
-        "name": "Bank of Scotland",
-        "currency": "GBP"
-    }
+  {
+    "_id": "5d713995b721c3bb38c1fabc",
+    "name": "Bank of Scotland",
+    "currency": "GBP"
+  },
+  {
+    "_id": "5d713995b721c3bb38c1fabd",
+    "name": "Sykes",
+    "currency": "GBP"
+  }
 ]

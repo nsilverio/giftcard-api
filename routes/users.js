@@ -8,7 +8,17 @@ const {
     deleteUser
 } = require('../controllers/users')
 
+
+// Include other resource routers
+const chequeRouter = require('./cheques')
+const reddemRouter = require('./redeems')
+
 const router = express.Router({ mergeParams: true })
+
+
+// Re-route into another resources routers
+router.use('/:userId/cheques', chequeRouter)
+router.use('/:userId/redeems', reddemRouter)
 
 router
     .route('/')

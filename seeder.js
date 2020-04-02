@@ -10,6 +10,8 @@ dotenv.config({ path: './config/config.env' })
 const Merchant = require('./models/Merchant')
 const Company = require('./models/Company')
 const User = require('./models/User')
+const Cheque = require('./models/Cheque')
+const Redeem = require('./models/Redeem')
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, {
@@ -29,14 +31,20 @@ const companies = JSON.parse(
 const users = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/users.json`, 'utf-8')
 )
-
-
+const cheques = JSON.parse(
+    fs.readFileSync(`${__dirname}/_data/cheques.json`, 'utf-8')
+)
+const redeems = JSON.parse(
+    fs.readFileSync(`${__dirname}/_data/redeems.json`, 'utf-8')
+)
 // Import into DB
 const importData = async () => {
     try {
         await Merchant.create(merchants)
         await Company.create(companies)
         await User.create(users)
+        await Cheque.create(cheques)
+        await Redeem.create(redeems)
 
         console.log('Data Imported...'.green.inverse);
 
@@ -52,6 +60,8 @@ const deleteData = async () => {
         await Merchant.deleteMany()
         await Company.deleteMany()
         await User.deleteMany()
+        await Cheque.deleteMany()
+        await Redeem.deleteMany()
 
         console.log('Data deleted...'.red.inverse)
 

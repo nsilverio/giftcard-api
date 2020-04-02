@@ -15,6 +15,8 @@ connectDB();
 const companies = require('./routes/companies')
 const merchants = require('./routes/merchants')
 const users = require('./routes/users')
+const cheques = require('./routes/cheques')
+const redeems = require('./routes/redeems')
 
 // Initialize express instance
 const app = express();
@@ -30,6 +32,8 @@ if (process.env.NODE_ENV === 'development')
 app.use('/api/v1/companies', companies)
 app.use('/api/v1/merchants', merchants)
 app.use('/api/v1/users', users)
+app.use('/api/v1/cheques', cheques)
+app.use('/api/v1/redeems', redeems)
 
 // error handler 
 app.use(errorHandler)

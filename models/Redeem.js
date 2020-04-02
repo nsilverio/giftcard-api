@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
 
-const ChequeSchema = new mongoose.Schema({
+const RedeemSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: [true, 'Please add an amount']
+    },
+    code: {
+        type: String,
+        required: [true, 'Please add a code'],
+        unique: true
     },
     createdAt: {
         type: Date,
@@ -19,7 +24,17 @@ const ChequeSchema = new mongoose.Schema({
         ref: 'Company',
         required: true
     },
+    merchant: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Merchant',
+        required: true
+    },
+    removedFromWallet: {
+        type: Boolean,
+        default: false
+    },
+
 });
 
 
-module.exports = mongoose.model('Cheque', ChequeSchema);
+module.exports = mongoose.model('Redeem', RedeemSchema);

@@ -1,11 +1,13 @@
 const User = require('../models/User')
 const Company = require('../models/Company')
+const Cheque = require('../models/Cheque')
+const Redeem = require('../models/Redeem')
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 
 // @desc    Get users
-// @route   GET /api/v1/users
 // @route   GET /api/v1/companies/:companyId/users
+// @route   GET /api/v1/users
 // @access  Public
 exports.getUsers = asyncHandler(async (req, res, next) => {
     let query;
@@ -19,6 +21,8 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
             path: 'company',
             select: 'name currency'
         })
+            .populate('cheques')
+            .populate('redeems')
 
     }
     const users = await query;
@@ -34,10 +38,13 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/users/:id
 // @access  Public
 exports.getUser = asyncHandler(async (req, res, next) => {
-    const user = await User.findById(req.params.id).populate({
-        path: 'company',
-        select: 'name currency'
-    })
+    const user = await User.findById(req.params.id)
+        .populate({
+            path: 'company',
+            select: 'name currency'
+        })
+        .populate('cheques')
+        .populate('redeems')
     if (!user)
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
 
@@ -46,16 +53,13 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 
 
 // @desc    Create User
-// @route   POST /api/v1/companies/:companyId/Users
+// @route   POST /api/v1/companies/:companyId/users
 // @access  Private
 exports.createUser = asyncHandler(async (req, res, next) => {
 
     req.body.company = req.params.companyId
 
-    const company = await Company.findById(req.params.companyId).populate({
-        path: 'company',
-        select: 'name currency'
-    })
+    const company = await Company.findById(req.params.companyId)
     if (!company)
         return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
 
@@ -68,8 +72,6 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 // @route   PUT /api/v1/users/userId
 // @access  Private
 exports.updateUser = asyncHandler(async (req, res, next) => {
-
-    console.log('hii');
 
     let user = await User.findById(req.params.id)
 

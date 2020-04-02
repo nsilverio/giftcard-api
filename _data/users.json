@@ -22,5 +22,21 @@
     "role": "user",
     "password": "123456",
     "company": "5d713995b721c3bb38c1fabc"
+  },
+  {
+    "_id": "5d7a514b5d2c12c7449be054",
+    "name": "Lead Belly",
+    "email": "natalisilverioo@gmail.com",
+    "role": "administrator",
+    "password": "123456",
+    "company": "5d713995b721c3bb38c1fabd"
+  },
+  {
+    "_id": "5d7a514b5d2c12c7449be055",
+    "name": "Jay McShann",
+    "email": "mama@gmail.com",
+    "role": "user",
+    "password": "123456",
+    "company": "5d713995b721c3bb38c1fabd"
   }
 ]

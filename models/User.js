@@ -36,7 +36,22 @@ const UserSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-});
+}, {
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    }
+)
+UserSchema.virtual('cheques', {
+    ref: 'Cheque',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false
+})
 
-
+UserSchema.virtual('redeems', {
+    ref: 'Redeem',
+    localField: '_id',
+    foreignField: 'user',
+    justOne: false
+})
 module.exports = mongoose.model('User', UserSchema);

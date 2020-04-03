@@ -13,9 +13,10 @@ npm init
    - Mongoose: schema-based solution to model your application data
    - Colors: add colors to node.js console
    - Slugify: slugify module for node.js
+   - Randexp: generate random alpha numeric strings based on regular expressions
 
 ```
-npm i express dotenv morgan mongoose colors slugify
+npm i express dotenv morgan mongoose colors slugify randexp
 ```
 
 3. Install nodemon as dev dependency

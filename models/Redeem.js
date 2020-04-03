@@ -1,4 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const RandExp = require('randexp');
+
 
 const RedeemSchema = new mongoose.Schema({
     amount: {
@@ -7,10 +9,17 @@ const RedeemSchema = new mongoose.Schema({
     },
     code: {
         type: String,
-        required: [true, 'Please add a code'],
-        unique: true
+        unique: true,
+        match: [
+            /([A-Z0-9]{4})-([A-Z0-9]{6})-([A-Z0-9]{4})/,
+            'Please add a valid code'
+        ]
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    expireAt: {
         type: Date,
         default: Date.now
     },
@@ -36,5 +45,19 @@ const RedeemSchema = new mongoose.Schema({
 
 });
 
+RedeemSchema.pre('save', function (next) {
+    // Set expiration date to one year from the date the redeem 
+    const addYear = new Date();
+    addYear.setFullYear(addYear.getFullYear() + 1)
+    this.expireAt = addYear
+    next();
+});
+
+
+RedeemSchema.pre('save', function (next) {
+    // generate giftcard code
+    this.code = new RandExp(/([A-Z0-9]{4})-([A-Z0-9]{6})-([A-Z0-9]{4})/).gen()
+    next();
+});
 
 module.exports = mongoose.model('Redeem', RedeemSchema);

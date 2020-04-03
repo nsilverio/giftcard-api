@@ -8,9 +8,10 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/cheques
 // @access  Public
 exports.getCheques = asyncHandler(async (req, res, next) => {
-    let query;
+    let query, user;
     if (req.params.userId) {
         query = Cheque.find({ user: req.params.userId })
+        user = await User.findById(req.params.userId)
     } else {
         query = Cheque.find()
 
@@ -20,6 +21,7 @@ exports.getCheques = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         count: cheques.length,
+        user,
         data: cheques
     })
 })
@@ -29,6 +31,8 @@ exports.getCheques = asyncHandler(async (req, res, next) => {
 // @access  Public
 exports.getCheque = asyncHandler(async (req, res, next) => {
     const cheque = await Cheque.findById(req.params.id)
+        .populate('user')
+        .populate('company')
     if (!cheque)
         return next(new ErrorResponse(`Cheque not found with id of ${req.params.id}`, 404))
 
@@ -43,8 +47,6 @@ exports.getCheque = asyncHandler(async (req, res, next) => {
 exports.createCheque = asyncHandler(async (req, res, next) => {
 
     req.body.user = req.params.userId
-    console.log(req.params.userId);
-
 
     const user = await User.findById(req.params.userId)
     if (!user)
@@ -84,7 +86,6 @@ exports.deleteCheque = asyncHandler(async (req, res, next) => {
 
     if (!cheque)
         return next(new ErrorResponse(`Cheque not found with id of ${req.params.id}`, 404))
-
 
     await cheque.remove()
 

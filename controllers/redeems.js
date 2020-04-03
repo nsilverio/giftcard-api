@@ -8,9 +8,10 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/redeems
 // @access  Public
 exports.getRedeems = asyncHandler(async (req, res, next) => {
-    let query;
+    let query, user;
     if (req.params.userId) {
         query = Redeem.find({ user: req.params.userId })
+        user = await User.findById(req.params.userId)
     } else {
         query = Redeem.find()
 
@@ -20,6 +21,7 @@ exports.getRedeems = asyncHandler(async (req, res, next) => {
     res.status(200).json({
         success: true,
         count: redeems.length,
+        user,
         data: redeems
     })
 })

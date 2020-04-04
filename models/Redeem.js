@@ -45,6 +45,54 @@ const RedeemSchema = new mongoose.Schema({
 
 });
 
+
+
+// Static method to get wallet balance
+RedeemSchema.statics.getWalletBalance = async function (userId) {
+    console.log('Calculating wallet balance'.blue)
+
+    const obj = await this.aggregate([
+        {
+            $match: { user: userId }
+        },
+        {
+            $group: {
+                _id: '$user',
+                walletBalance: { $sum: '$amount' }
+            }
+        }
+    ])
+
+    try {
+        await this.model('User').findByIdAndUpdate(
+            userId,
+            obj[0]
+                ? {
+                    walletBalance: Math.round((obj[0].walletBalance + Number.EPSILON) * 100) / 100
+                }
+                : { walletBalance: undefined }
+        );
+
+
+    } catch (err) {
+        console.error(err);
+    }
+
+}
+
+// Call getWalletBalance after save
+RedeemSchema.post('save', async function () {
+    await this.constructor.getWalletBalance(this.user)
+
+})
+
+// Call getWalletBalance after remove
+RedeemSchema.post('remove', async function () {
+    await this.constructor.getWalletBalance(this.user)
+
+})
+
+
 RedeemSchema.pre('save', function (next) {
     // Set expiration date to one year from the date the redeem 
     const addYear = new Date();

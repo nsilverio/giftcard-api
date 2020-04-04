@@ -41,7 +41,7 @@ ChequeSchema.statics.getAccountBalance = async function (userId) {
         await this.model('User').findByIdAndUpdate(userId,
             obj[0]
                 ? {
-                    accountBalance: obj[0].accountBalance
+                    accountBalance: Math.round((obj[0].accountBalance + Number.EPSILON) * 100) / 100
                 }
                 : { accountBalance: undefined }
         )

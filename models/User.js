@@ -34,6 +34,10 @@ const UserSchema = new mongoose.Schema({
     resetPasswordExpire: Date,
     accountBalance: Number,
     walletBalance: Number,
+    photo: {
+        type: String,
+        default: 'user-no-photo.png'
+    },
     createdAt: {
         type: Date,
         default: Date.now

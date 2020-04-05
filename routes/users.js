@@ -1,11 +1,13 @@
 const express = require('express')
+const path = require('path')
 
 const {
     getUsers,
     getUser,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    userPhotoUpload
 } = require('../controllers/users')
 
 
@@ -19,6 +21,8 @@ const router = express.Router({ mergeParams: true })
 // Re-route into another resources routers
 router.use('/:userId/cheques', chequeRouter)
 router.use('/:userId/redeems', reddemRouter)
+
+router.route('/:id/photo').put(userPhotoUpload)
 
 router
     .route('/')

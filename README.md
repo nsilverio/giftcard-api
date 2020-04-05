@@ -14,9 +14,10 @@ npm init
    - Colors: add colors to node.js console
    - Slugify: slugify module for node.js
    - Randexp: generate random alpha numeric strings based on regular expressions
+   - File upload - express file sytem upload middleware
 
 ```
-npm i express dotenv morgan mongoose colors slugify randexp
+npm i express dotenv morgan mongoose colors slugify randexp express-fileupload
 ```
 
 3. Install nodemon as dev dependency

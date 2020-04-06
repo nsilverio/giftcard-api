@@ -6,9 +6,8 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/merchants
 // @access  Public
 exports.getMerchants = asyncHandler(async (req, res, next) => {
-    const merchants = await Merchant.find()
 
-    res.status(200).json({ success: true, count: merchants.length, data: merchants })
+    res.status(200).json(res.advancedResults)
 })
 
 // @desc    Get a single Merchant

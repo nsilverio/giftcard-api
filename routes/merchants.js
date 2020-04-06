@@ -9,10 +9,13 @@ const {
     merchantPhotoUpload
 } = require('../controllers/merchants');
 
-// Photo upload  
 const Merchant = require('../models/Merchant')
+
+// Photo upload  
 const uploadPhoto = require('../middleware/uploadPhoto')
 
+// Advanced results
+const advancedResults = require('../middleware/advancedResults')
 
 const router = express.Router()
 
@@ -21,7 +24,7 @@ router.route('/:id/photo').put(uploadPhoto(Merchant, 'merchants'), merchantPhoto
 
 router
     .route('/')
-    .get(getMerchants)
+    .get(advancedResults(Merchant, 'merchants'), getMerchants)
     .post(createMerchant)
 
 router

@@ -9,28 +9,7 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/users
 // @access  Public
 exports.getUsers = asyncHandler(async (req, res, next) => {
-    let query;
-    if (req.params.companyId) {
-        query = User.find({ company: req.params.companyId }).populate({
-            path: 'company',
-            select: 'name currency'
-        })
-    } else {
-        query = User.find().populate({
-            path: 'company',
-            select: 'name currency'
-        })
-            .populate('cheques')
-            .populate('redeems')
-
-    }
-    const users = await query;
-
-    res.status(200).json({
-        success: true,
-        count: users.length,
-        data: users
-    })
+    res.status(200).json(res.advancedResults)
 })
 
 // @desc    Get user

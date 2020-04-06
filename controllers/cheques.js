@@ -8,22 +8,7 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/cheques
 // @access  Public
 exports.getCheques = asyncHandler(async (req, res, next) => {
-    let query, user;
-    if (req.params.userId) {
-        query = Cheque.find({ user: req.params.userId })
-        user = await User.findById(req.params.userId)
-    } else {
-        query = Cheque.find()
-
-    }
-    const cheques = await query;
-
-    res.status(200).json({
-        success: true,
-        count: cheques.length,
-        user,
-        data: cheques
-    })
+    res.status(200).json(res.advancedResults)
 })
 
 // @desc    Get cheque

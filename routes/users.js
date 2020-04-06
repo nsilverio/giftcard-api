@@ -1,5 +1,4 @@
 const express = require('express')
-const path = require('path')
 
 const {
     getUsers,
@@ -10,9 +9,13 @@ const {
     userPhotoUpload
 } = require('../controllers/users')
 
-// Photo upload  
 const User = require('../models/User')
+
+// Photo upload  
 const uploadPhoto = require('../middleware/uploadPhoto')
+
+// Advanced results
+const advancedResults = require('../middleware/advancedResults')
 
 // Include other resource routers
 const chequeRouter = require('./cheques')
@@ -25,15 +28,13 @@ const router = express.Router({ mergeParams: true })
 router.use('/:userId/cheques', chequeRouter)
 router.use('/:userId/redeems', reddemRouter)
 
-//router.route('/:id/photo').put(userPhotoUpload)
-//router.route('/:id/photo').put(uploadPhoto(User, 'user'), userPhotoUpload)
 router.route('/:id/photo').put(uploadPhoto(User, 'users'), userPhotoUpload)
 
 
 
 router
     .route('/')
-    .get(getUsers)
+    .get(advancedResults(User, 'users'), getUsers)
     .post(createUser)
 
 router

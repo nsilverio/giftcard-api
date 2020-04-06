@@ -74,3 +74,15 @@ exports.deleteMerchant = asyncHandler(async (req, res, next) => {
     })
 
 })
+// @desc    Upload photo for a merchant
+// @route   PUT /api/v1/merchants/:id/photo
+// @access  private
+exports.merchantPhotoUpload = asyncHandler(async (req, res, next) => {
+    const merchant = await User.findById(req.params.id)
+
+    if (!merchant)
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
+
+    res.status(200).json(res.uploadPhoto)
+})
+

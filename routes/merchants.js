@@ -5,10 +5,19 @@ const {
     getMerchant,
     createMerchant,
     updateMerchant,
-    deleteMerchant
+    deleteMerchant,
+    merchantPhotoUpload
 } = require('../controllers/merchants');
 
+// Photo upload  
+const Merchant = require('../models/Merchant')
+const uploadPhoto = require('../middleware/uploadPhoto')
+
+
 const router = express.Router()
+
+router.route('/:id/photo').put(uploadPhoto(Merchant, 'merchants'), merchantPhotoUpload)
+
 
 router
     .route('/')

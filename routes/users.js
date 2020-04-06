@@ -10,6 +10,9 @@ const {
     userPhotoUpload
 } = require('../controllers/users')
 
+// Photo upload  
+const User = require('../models/User')
+const uploadPhoto = require('../middleware/uploadPhoto')
 
 // Include other resource routers
 const chequeRouter = require('./cheques')
@@ -22,7 +25,11 @@ const router = express.Router({ mergeParams: true })
 router.use('/:userId/cheques', chequeRouter)
 router.use('/:userId/redeems', reddemRouter)
 
-router.route('/:id/photo').put(userPhotoUpload)
+//router.route('/:id/photo').put(userPhotoUpload)
+//router.route('/:id/photo').put(uploadPhoto(User, 'user'), userPhotoUpload)
+router.route('/:id/photo').put(uploadPhoto(User, 'users'), userPhotoUpload)
+
+
 
 router
     .route('/')

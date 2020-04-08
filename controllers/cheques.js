@@ -53,32 +53,34 @@ exports.getCheque = asyncHandler(async (req, res, next) => {
 // @access  Private
 exports.createCheque = asyncHandler(async (req, res, next) => {
     console.log(req.params);
-    let cheques
+    console.log('createCheques')
 
-    if (req.params.companyId) {
-        // create multiple cheques for company
-        req.body.company = req.params.companyId
+    // let cheques
 
-        let company = await Company.findById(req.params.companyId)
-        if (!company)
-            return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
+    // if (req.params.companyId) {
+    //     // create multiple cheques for company
+    //     req.body.company = req.params.companyId
 
-
-
-    }
-    else if (req.params.userId) {
-        // Create cheque for user
-        req.body.user = req.params.userId
-        const user = await User.findById(req.params.userId)
-        if (!user)
-            return next(new ErrorResponse(`User not found with id of ${req.params.userId}`, 404))
-
-        cheques = await Cheque.create(req.body)
-
-    }
+    //     let company = await Company.findById(req.params.companyId)
+    //     if (!company)
+    //         return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
 
 
-    res.status(200).json({ success: true, data: cheque })
+
+    // }
+    // else if (req.params.userId) {
+    //     // Create cheque for user
+    //     req.body.user = req.params.userId
+    //     const user = await User.findById(req.params.userId)
+    //     if (!user)
+    //         return next(new ErrorResponse(`User not found with id of ${req.params.userId}`, 404))
+
+    //     cheques = await Cheque.create(req.body)
+
+    // }
+
+
+    // res.status(200).json({ success: true, data: cheque })
 })
 
 
@@ -86,7 +88,7 @@ exports.createCheque = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/companies/:companyId/createCheques
 // @access  Private
 exports.createCheques = asyncHandler(async (req, res, next) => {
-    console.log('hi')
+    console.log('createCheques')
     console.log(req.params);
     /* let cheques
 

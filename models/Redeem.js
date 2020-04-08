@@ -92,7 +92,6 @@ RedeemSchema.post('remove', async function () {
 
 })
 
-
 RedeemSchema.pre('save', function (next) {
     // Set expiration date to one year from the date the redeem 
     const addYear = new Date();

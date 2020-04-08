@@ -9,7 +9,17 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/users
 // @access  Public
 exports.getUsers = asyncHandler(async (req, res, next) => {
-    res.status(200).json(res.advancedResults)
+    if (req.params.companyId) {
+        const users = await User.find({ company: req.params.companyId });
+
+        return res.status(200).json({
+            success: true,
+            count: users.length,
+            data: users
+        });
+    } else {
+        res.status(200).json(res.advancedResults);
+    }
 })
 
 // @desc    Get user

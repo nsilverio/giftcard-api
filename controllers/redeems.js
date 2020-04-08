@@ -5,10 +5,30 @@ const asyncHandler = require('../middleware/async')
 
 // @desc    Get redeems
 // @route   GET /api/v1/users/:userId/redeems
+// @route   GET /api/v1/companies/:companyId/redeems
 // @route   GET /api/v1/redeems
 // @access  Public
 exports.getRedeems = asyncHandler(async (req, res, next) => {
-    res.status(200).json(res.advancedResults)
+    let redeems
+    if (req.params.userId) {
+        redeems = await Redeem.find({ user: req.params.userId });
+
+        return res.status(200).json({
+            success: true,
+            count: redeems.length,
+            data: redeems
+        });
+    } else if (req.params.companyId) {
+        redeems = await Redeem.find({ company: req.params.companyId });
+
+        return res.status(200).json({
+            success: true,
+            count: redeems.length,
+            data: redeems
+        });
+    } else {
+        res.status(200).json(res.advancedResults);
+    }
 })
 
 // @desc    Get redeem
@@ -30,8 +50,6 @@ exports.getRedeem = asyncHandler(async (req, res, next) => {
 exports.createRedeem = asyncHandler(async (req, res, next) => {
 
     req.body.user = req.params.userId
-    console.log(req.params.userId);
-
 
     const user = await User.findById(req.params.userId)
     if (!user)
@@ -41,6 +59,7 @@ exports.createRedeem = asyncHandler(async (req, res, next) => {
 
     res.status(200).json({ success: true, data: redeem })
 })
+
 
 // @desc    Update redeem
 // @route   PUT /api/v1/redeems/redeemId

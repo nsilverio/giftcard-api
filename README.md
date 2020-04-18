@@ -15,9 +15,10 @@ npm init
    - Slugify: slugify module for node.js
    - Randexp: generate random alpha numeric strings based on regular expressions
    - File upload - express file sytem upload middleware
+   - XLSX: Parser and writer for spreadsheet formats
 
 ```
-npm i express dotenv morgan mongoose colors slugify randexp express-fileupload
+npm i express dotenv morgan mongoose colors slugify randexp express-fileupload xlsx
 ```
 
 3. Install nodemon as dev dependency

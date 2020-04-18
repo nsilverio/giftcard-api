@@ -3,6 +3,10 @@ const Company = require('../models/Company')
 const User = require('../models/User')
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
+const path = require('path')
+const fs = require('fs')
+const XLSX = require('xlsx');
+
 
 // @desc    Get cheques
 // @route   GET /api/v1/users/:userId/cheques
@@ -52,70 +56,94 @@ exports.getCheque = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/users/:userId/cheques
 // @access  Private
 exports.createCheque = asyncHandler(async (req, res, next) => {
-    console.log(req.params);
-    console.log('createCheques')
+    console.log('createCheque')
 
-    // let cheques
+    req.body.user = req.params.userId
+    const user = await User.findById(req.params.userId)
+    if (!user)
+        return next(new ErrorResponse(`User not found with id of ${req.params.userId}`, 404))
 
-    // if (req.params.companyId) {
-    //     // create multiple cheques for company
-    //     req.body.company = req.params.companyId
-
-    //     let company = await Company.findById(req.params.companyId)
-    //     if (!company)
-    //         return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
-
-
-
-    // }
-    // else if (req.params.userId) {
-    //     // Create cheque for user
-    //     req.body.user = req.params.userId
-    //     const user = await User.findById(req.params.userId)
-    //     if (!user)
-    //         return next(new ErrorResponse(`User not found with id of ${req.params.userId}`, 404))
-
-    //     cheques = await Cheque.create(req.body)
-
-    // }
-
-
-    // res.status(200).json({ success: true, data: cheque })
+    const cheque = await Cheque.create(req.body)
+    res.status(200).json({ success: true, data: cheque })
 })
 
-
-// @desc    Create Cheques
-// @route   POST /api/v1/companies/:companyId/createCheques
+// @desc    Upload Cheques
+// @route   POST v1/companies/:companyId/cheques/upload
 // @access  Private
-exports.createCheques = asyncHandler(async (req, res, next) => {
-    console.log('createCheques')
-    console.log(req.params);
-    /* let cheques
+exports.uploadCheques = asyncHandler(async (req, res, next) => {
 
-    if (req.params.companyId) {
-        // create multiple cheques for company
-        req.body.company = req.params.companyId
+    let company = await Company.findById(req.params.companyId)
+    if (!company)
+        return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
 
-        const company = await Company.findbyId(req.params.companyId)
-        if (!company)
-            return next(new ErrorResponse(`Company not found with id of ${req.params.companyId}`, 404))
+    // file upload
+    if (!req.files)
+        return next(new ErrorResponse(`Please upload a file`, 400))
 
+    const file = req.files.file
 
 
-    }
-    else if (req.params.userId) {
-        // Create cheque for user
-        req.body.user = req.params.userId
-        const user = await User.findById(req.params.userId)
-        if (!user)
-            return next(new ErrorResponse(`User not found with id of ${req.params.userId}`, 404))
-
-        cheques = await Cheque.create(req.body)
-
+    // make sure file is a valid spreadsheet
+    if (!file.mimetype.startsWith('application/vnd.')) {
+        return next(new ErrorResponse(`Please upload an valid spreadsheet file`, 400))
     }
 
+    // make sure image is  not lager than limit
+    if (!file.filesize > process.env.MAX_FILE_UPLOAD) {
+        return next(new ErrorResponse(`Please upload a file smaller than ${process.env.MAX_FILE_UPLOAD}`, 400))
+    }
 
-    res.status(200).json({ success: true, data: cheque }) */
+    // Create custom filename 
+    file.name = `cheques_${req.params.companyId}${path.parse(file.name).ext}`
+
+    const pathTofile = `${process.env.FILE_UPLOAD_PATH}/${file.name}`
+
+    // Upload file
+    file.mv(pathTofile, async err => {
+        if (err) {
+            console.log(err)
+            return next(new ErrorResponse(`Error uploading file`, 500))
+        }
+
+        // read xlsx file
+        const wb = XLSX.readFile(pathTofile);
+        // get worksheet name 
+        const sheet_name_list = wb.SheetNames;
+        const ws = wb.Sheets[sheet_name_list[0]]
+
+        // Files with no header 
+        //const data = XLSX.utils.sheet_to_json(ws, { header: 1 }) 
+
+        // Files with header 
+        const worksheetData = XLSX.utils.sheet_to_json(ws)
+
+        let cheques = [], usersNotFound = [], success = false
+
+        for (const row of worksheetData) {
+
+            const user = await User.findOne({ email: row.Email, company: req.params.companyId })
+            if (user) {
+                const cheque = { user: user.id, company: req.params.companyId, amount: row.Amount }
+                cheques.push(cheque)
+
+
+            }
+            else {
+                usersNotFound.push({ email: row.Email, amount: row.Amount })
+            }
+        }
+        if (cheques.length > 0) {
+            success = true
+            await Cheque.create(cheques)
+        }
+        // delete file
+        fs.unlinkSync(pathTofile)
+
+
+        res.status(200).json({ success: success, data: cheques, usersNotFound: usersNotFound })
+
+    })
+
 })
 
 // @desc    Update cheque

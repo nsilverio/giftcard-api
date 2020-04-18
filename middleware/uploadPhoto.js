@@ -12,7 +12,7 @@ const uploadPhoto = (model) => async (req, res, next) => {
     }
     // make sure image is  not lager than 1MB
     if (!file.filesize > process.env.MAX_FILE_UPLOAD) {
-        return next(new ErrorResponse(`Please an image file less than ${process.env.MAX_FILE_UPLOAD}`, 400))
+        return next(new ErrorResponse(`Please upload an image file less than ${process.env.MAX_FILE_UPLOAD}`, 400))
     }
 
     // Create custom filename 

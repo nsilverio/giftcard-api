@@ -85,3 +85,14 @@ exports.deleteCompany = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, data: {} })
 })
 
+// @desc    Upload photo for a company
+// @route   PUT /api/v1/companies/:id/photo
+// @access  private
+exports.companyPhotoUpload = asyncHandler(async (req, res, next) => {
+    const company = await Company.findById(req.params.id)
+
+    if (!company)
+        return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
+
+    res.status(200).json(res.uploadPhoto)
+})

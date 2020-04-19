@@ -8,13 +8,14 @@ const asyncHandler = require('../middleware/async')
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
 
-    const { name, email, password, role } = req.body
+    const { name, email, company, password, role } = req.body
 
     // Create the user
     const user = await User.create({
         name,
         email,
         password,
+        company,
         role
     })
 
@@ -54,8 +55,6 @@ exports.login = asyncHandler(async (req, res, next) => {
 // @route   POST /api/v1/auth/me
 // @access  Private
 exports.getMe = asyncHandler(async (req, res, next) => {
-
-    console.log('me');
 
     const user = await User.findById(req.user.id)
 

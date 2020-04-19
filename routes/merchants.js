@@ -9,9 +9,8 @@ const {
     merchantPhotoUpload
 } = require('../controllers/merchants');
 
-const Merchant = require('../models/Merchant')
-
 // Photo upload  
+const Merchant = require('../models/Merchant')
 const uploadPhoto = require('../middleware/uploadPhoto')
 
 // Advanced results

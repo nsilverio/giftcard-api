@@ -6,8 +6,13 @@ const {
     deleteCompany,
     createCompany,
     updateCompany,
-    createCheques
+    companyPhotoUpload
 } = require('../controllers/companies')
+
+// Photo upload  
+const Company = require('../models/Company')
+const uploadPhoto = require('../middleware/uploadPhoto')
+
 
 // Include other resource routers 
 const userRouter = require('./users')
@@ -21,8 +26,12 @@ const router = express.Router({ mergeParams: true })
 router.use('/:companyId/users', userRouter)
 router.use('/:companyId/cheques', chequeRouter)
 router.use('/:companyId/redeems', redeemRouter)
+
 // add protection to routes where user needs to be authorized
 const { protect } = require('../middleware/auth')
+
+
+router.route('/:id/photo').put(protect, uploadPhoto(Company, 'companies'), companyPhotoUpload)
 
 router
     .route('/')

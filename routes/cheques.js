@@ -16,19 +16,22 @@ const router = express.Router({ mergeParams: true })
 const Cheque = require('../models/Cheque')
 const advancedResults = require('../middleware/advancedResults')
 
-router.route('/upload').post(uploadCheques)
+// add protection to routes where user needs to be authorized
+const { protect } = require('../middleware/auth')
+
+router.route('/upload').post(protect, uploadCheques)
 
 router
     .route('/')
-    .get(advancedResults(Cheque, 'cheques'), getCheques)
-    .post(createCheque)
+    .get(protect, advancedResults(Cheque, 'cheques'), getCheques)
+    .post(protect, createCheque)
 
 
 router
     .route('/:id')
-    .get(getCheque)
-    .put(updateCheque)
-    .delete(deleteCheque)
+    .get(protect, getCheque)
+    .put(protect, updateCheque)
+    .delete(protect, deleteCheque)
 
 
 module.exports = router;

@@ -21,18 +21,19 @@ const router = express.Router({ mergeParams: true })
 router.use('/:companyId/users', userRouter)
 router.use('/:companyId/cheques', chequeRouter)
 router.use('/:companyId/redeems', redeemRouter)
-
+// add protection to routes where user needs to be authorized
+const { protect } = require('../middleware/auth')
 
 router
     .route('/')
-    .get(getCompanies)
-    .post(createCompany)
+    .get(protect, getCompanies)
+    .post(protect, createCompany)
 
 router
     .route('/:id')
-    .get(getCompany)
-    .put(updateCompany)
-    .delete(deleteCompany)
+    .get(protect, getCompany)
+    .put(protect, updateCompany)
+    .delete(protect, deleteCompany)
 
 
 module.exports = router;

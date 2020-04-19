@@ -1,11 +1,13 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const morgan = require('morgan');
-const connectDB = require('./config/db')
-const colors = require('colors');
-const fileUpload = require('express-fileUpload');
-const errorHandler = require('./middleware/error')
+const express = require('express')
+const dotenv = require('dotenv')
+const morgan = require('morgan')
+const colors = require('colors')
 const path = require('path')
+const fileUpload = require('express-fileUpload')
+const cookieParser = require('cookie-parser')
+const errorHandler = require('./middleware/error')
+const connectDB = require('./config/db')
+
 
 // Load env vars
 dotenv.config({ path: './config/config.env' });
@@ -26,6 +28,9 @@ const app = express();
 
 // Body parser
 app.use(express.json())
+
+// Cookie parser
+app.use(cookieParser())
 
 // Logts to console when on dev enviroment
 if (process.env.NODE_ENV === 'development')

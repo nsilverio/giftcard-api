@@ -16,11 +16,13 @@ npm init
    - Randexp: generate random alpha numeric strings based on regular expressions
    - File upload - express file sytem upload middleware
    - XLSX: Parser and writer for spreadsheet formats
-     - JSON web token: is a compact URL-safe means of representing claims to be transferred between two parties
+   - JSON web token: is a compact URL-safe means of representing claims to be transferred between two parties
    - Bcryptjs: encryption for passwords
+   - Cookie parser: Parse Cookie header and populate req.cookies with an object keyed by the cookie names
 
 ```
-npm i express dotenv morgan mongoose colors slugify randexp express-fileupload xlsx jsonwebtoken bcryptjs
+npm i express dotenv morgan mongoose colors slugify randexp express-fileupload xlsx jsonwebtoken bcryptjs cookie-parser
+
 ```
 
 3. Install nodemon as dev dependency

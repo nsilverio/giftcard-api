@@ -18,19 +18,21 @@ const uploadPhoto = require('../middleware/uploadPhoto')
 const advancedResults = require('../middleware/advancedResults')
 
 const router = express.Router()
+// add protection to routes where user needs to be authorized
+const { protect } = require('../middleware/auth')
 
-router.route('/:id/photo').put(uploadPhoto(Merchant, 'merchants'), merchantPhotoUpload)
+router.route('/:id/photo').put(protect, uploadPhoto(Merchant, 'merchants'), merchantPhotoUpload)
 
 
 router
     .route('/')
-    .get(advancedResults(Merchant, 'merchants'), getMerchants)
-    .post(createMerchant)
+    .get(protect, advancedResults(Merchant, 'merchants'), getMerchants)
+    .post(protect, createMerchant)
 
 router
     .route('/:id')
-    .get(getMerchant)
-    .put(updateMerchant)
-    .delete(deleteMerchant)
+    .get(protect, getMerchant)
+    .put(protect, updateMerchant)
+    .delete(protect, deleteMerchant)
 
 module.exports = router;

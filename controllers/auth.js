@@ -8,20 +8,18 @@ const asyncHandler = require('../middleware/async')
 // @access  Public
 exports.register = asyncHandler(async (req, res, next) => {
 
-    const { name, email, password, company, role } = req.body
+    const { name, email, password, role } = req.body
 
     // Create the user
     const user = await User.create({
         name,
         email,
-        company,
         password,
         role
     })
 
-    const token = user.getSignedJwtToken()
+    sendTokenresponse(user, 200, res)
 
-    res.status(200).json({ success: true, token })
 })
 
 // @desc    Login user 
@@ -49,7 +47,44 @@ exports.login = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Invalid credentials', 401))
     }
 
+    sendTokenresponse(user, 200, res)
+})
+
+// @desc    Get current logged un user
+// @route   POST /api/v1/auth/me
+// @access  Private
+exports.getMe = asyncHandler(async (req, res, next) => {
+
+    console.log('me');
+
+    const user = await User.findById(req.user.id)
+
+    res.status(200).json({
+        success: true,
+        data: user
+    })
+
+})
+
+// get token from model, create cookie and send response
+const sendTokenresponse = (user, statusCode, res) => {
+    // create token 
     const token = user.getSignedJwtToken()
 
-    res.status(200).json({ success: true, token })
-})
+    const options = {
+        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000), // add 30 days to date
+        httpOnly: true
+    }
+    if (process.env.NODE_ENV === 'production') {
+        options.secure = true
+    }
+
+
+    res
+        .status(statusCode)
+        .cookie('token', token, options)
+        .json({
+            success: true,
+            token
+        })
+}

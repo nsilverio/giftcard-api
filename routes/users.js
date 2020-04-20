@@ -24,26 +24,26 @@ const reddemRouter = require('./redeems')
 const router = express.Router({ mergeParams: true })
 
 // add protection to routes where user needs to be authorized
-const { protect } = require('../middleware/auth')
+const { protect, authorize } = require('../middleware/auth')
 
 // Re-route into another resources routers
 router.use('/:userId/cheques', chequeRouter)
 router.use('/:userId/redeems', reddemRouter)
 
-router.route('/:id/photo').put(protect, uploadPhoto(User, 'users'), userPhotoUpload)
+router.route('/:id/photo').put(protect, authorize('user'), uploadPhoto(User, 'users'), userPhotoUpload)
 
 
 
 router
     .route('/')
-    .get(protect, advancedResults(User, 'users'), getUsers)
-    .post(protect, createUser)
+    .get(protect, authorize('administrator', 'root', 'user'), advancedResults(User, 'users'), getUsers)
+    .post(protect, authorize('administrator', 'root'), createUser)
 
 router
     .route('/:id')
-    .get(protect, getUser)
-    .put(protect, updateUser)
-    .delete(protect, deleteUser)
+    .get(protect, authorize('administrator', 'root', 'user'), getUser)
+    .put(protect, authorize('administrator', 'user'), updateUser)
+    .delete(protect, authorize('administrator', 'root'), deleteUser)
 
 
 module.exports = router

@@ -17,21 +17,21 @@ const Cheque = require('../models/Cheque')
 const advancedResults = require('../middleware/advancedResults')
 
 // add protection to routes where user needs to be authorized
-const { protect } = require('../middleware/auth')
+const { protect, authorize } = require('../middleware/auth')
 
-router.route('/upload').post(protect, uploadCheques)
+router.route('/upload').post(protect, authorize('administrator'), uploadCheques)
 
 router
     .route('/')
-    .get(protect, advancedResults(Cheque, 'cheques'), getCheques)
-    .post(protect, createCheque)
+    .get(protect, authorize('administrator', 'root', 'user'), advancedResults(Cheque, 'cheques'), getCheques)
+    .post(protect, authorize('administrator'), createCheque)
 
 
 router
     .route('/:id')
-    .get(protect, getCheque)
-    .put(protect, updateCheque)
-    .delete(protect, deleteCheque)
+    .get(protect, authorize('administrator', 'root', 'user'), getCheque)
+    .put(protect, authorize('administrator'), updateCheque)
+    .delete(protect, authorize('administrator'), deleteCheque)
 
 
 module.exports = router;

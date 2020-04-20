@@ -28,21 +28,21 @@ router.use('/:companyId/cheques', chequeRouter)
 router.use('/:companyId/redeems', redeemRouter)
 
 // add protection to routes where user needs to be authorized
-const { protect } = require('../middleware/auth')
+const { protect, authorize } = require('../middleware/auth')
 
 
-router.route('/:id/photo').put(protect, uploadPhoto(Company, 'companies'), companyPhotoUpload)
+router.route('/:id/photo').put(protect, authorize('administrator', 'root'), uploadPhoto(Company, 'companies'), companyPhotoUpload)
 
 router
     .route('/')
-    .get(protect, getCompanies)
-    .post(protect, createCompany)
+    .get(protect, authorize('root'), getCompanies)
+    .post(protect, authorize('root'), createCompany)
 
 router
     .route('/:id')
-    .get(protect, getCompany)
-    .put(protect, updateCompany)
-    .delete(protect, deleteCompany)
+    .get(protect, authorize('administrator', 'root', 'user'), getCompany)
+    .put(protect, authorize('administrator', 'root'), updateCompany)
+    .delete(protect, authorize('root'), deleteCompany)
 
 
 module.exports = router;

@@ -56,8 +56,8 @@ UserSchema.virtual('cheques', {
     justOne: false
 })
 
-UserSchema.virtual('redeems', {
-    ref: 'Redeem',
+UserSchema.virtual('redemptions', {
+    ref: 'Redemption',
     localField: '_id',
     foreignField: 'user',
     justOne: false

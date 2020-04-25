@@ -32,7 +32,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
             select: 'name currency'
         })
         .populate('cheques')
-        .populate('redeems')
+        .populate('redemptions')
     if (!user)
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 404))
 

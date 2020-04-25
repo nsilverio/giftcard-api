@@ -1,0 +1,17 @@
+            getAll      get     create      update      delete
+merchant    all        all      root        root        root
+
+Restricted to company and /or user
+company     root x      all x     root x       r a         root
+cheque      a u        a u       admin       N/A         N/A
+redemption      user       user     user       user        N/A
+user        root       all      r a        r a u       r a 
+
+
+Restricted to company and /or user
+
+CHEQUE
+Admin 
+View all for company
+
+

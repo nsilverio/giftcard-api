@@ -11,7 +11,7 @@ const Merchant = require('./models/Merchant')
 const Company = require('./models/Company')
 const User = require('./models/User')
 const Cheque = require('./models/Cheque')
-const Redeem = require('./models/Redeem')
+const Redemption = require('./models/Redemption')
 
 // Connect to DB
 mongoose.connect(process.env.MONGO_URI, {
@@ -34,8 +34,8 @@ const users = JSON.parse(
 const cheques = JSON.parse(
     fs.readFileSync(`${__dirname}/_data/cheques.json`, 'utf-8')
 )
-const redeems = JSON.parse(
-    fs.readFileSync(`${__dirname}/_data/redeems.json`, 'utf-8')
+const redemptions = JSON.parse(
+    fs.readFileSync(`${__dirname}/_data/redemptions.json`, 'utf-8')
 )
 // Import into DB
 const importData = async () => {
@@ -44,7 +44,7 @@ const importData = async () => {
         await Company.create(companies)
         await User.create(users)
         await Cheque.create(cheques)
-        await Redeem.create(redeems)
+        await Redemption.create(redemptions)
 
         console.log('Data Imported...'.green.inverse);
 
@@ -61,7 +61,7 @@ const deleteData = async () => {
         await Company.deleteMany()
         await User.deleteMany()
         await Cheque.deleteMany()
-        await Redeem.deleteMany()
+        await Redemption.deleteMany()
 
         console.log('Data deleted...'.red.inverse)
 

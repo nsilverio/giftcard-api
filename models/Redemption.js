@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const RandExp = require('randexp');
 
 
-const RedeemSchema = new mongoose.Schema({
+const RedemptionSchema = new mongoose.Schema({
     amount: {
         type: Number,
         required: [true, 'Please add an amount']
@@ -48,7 +48,7 @@ const RedeemSchema = new mongoose.Schema({
 
 
 // Static method to get wallet balance
-RedeemSchema.statics.getWalletBalance = async function (userId) {
+RedemptionSchema.statics.getWalletBalance = async function (userId) {
     console.log('Calculating wallet balance'.blue)
 
     const obj = await this.aggregate([
@@ -81,19 +81,19 @@ RedeemSchema.statics.getWalletBalance = async function (userId) {
 }
 
 // Call getWalletBalance after save
-RedeemSchema.post('save', async function () {
+RedemptionSchema.post('save', async function () {
     await this.constructor.getWalletBalance(this.user)
 
 })
 
 // Call getWalletBalance after remove
-RedeemSchema.post('remove', async function () {
+RedemptionSchema.post('remove', async function () {
     await this.constructor.getWalletBalance(this.user)
 
 })
 
-RedeemSchema.pre('save', function (next) {
-    // Set expiration date to one year from the date the redeem 
+RedemptionSchema.pre('save', function (next) {
+    // Set expiration date to one year from the date the redemption 
     const addYear = new Date();
     addYear.setFullYear(addYear.getFullYear() + 1)
     this.expireAt = addYear
@@ -101,10 +101,10 @@ RedeemSchema.pre('save', function (next) {
 });
 
 
-RedeemSchema.pre('save', function (next) {
+RedemptionSchema.pre('save', function (next) {
     // generate giftcard code
     this.code = new RandExp(/([A-Z0-9]{4})-([A-Z0-9]{6})-([A-Z0-9]{4})/).gen()
     next();
 });
 
-module.exports = mongoose.model('Redeem', RedeemSchema);
+module.exports = mongoose.model('Redemption', RedemptionSchema);

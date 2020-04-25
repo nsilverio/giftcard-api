@@ -47,7 +47,7 @@ CompanySchema.virtual('users', {
 CompanySchema.pre('remove', async function (next) {
     await this.model('User').deleteMany({ company: this._id })
     await this.model('Cheque').deleteMany({ company: this._id })
-    await this.model('Redeem').deleteMany({ company: this._id })
+    await this.model('Redemption').deleteMany({ company: this._id })
 
     console.log(`Users being deleted from company ${this.name}`)
     console.log(`Cheques being deleted from company ${this.name}`)

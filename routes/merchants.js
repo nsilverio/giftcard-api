@@ -20,7 +20,7 @@ const router = express.Router()
 // add protection to routes where user needs to be authorized
 const { protect, authorize } = require('../middleware/auth')
 
-router.route('/:id/photo').put(protect, authorize('administrator'), uploadPhoto(Merchant, 'merchants'), merchantPhotoUpload)
+router.route('/:id/photo').put(protect, authorize('root'), uploadPhoto(Merchant, 'merchants'), merchantPhotoUpload)
 
 
 router

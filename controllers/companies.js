@@ -22,6 +22,8 @@ exports.getCompanies = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/companies/companyId
 // @access  Public
 exports.getCompany = asyncHandler(async (req, res, next) => {
+
+
     let company = await Company.findById(req.params.id).populate('users')
 
     if (!company) {

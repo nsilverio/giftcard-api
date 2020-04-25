@@ -41,22 +41,19 @@ exports.getCheques = asyncHandler(async (req, res, next) => {
 // @route   GET /api/v1/cheques/:id
 // @access  Public
 exports.getCheque = asyncHandler(async (req, res, next) => {
+
     const cheque = await Cheque.findById(req.params.id)
         .populate('user')
         .populate('company')
-    if (!cheque)
-        return next(new ErrorResponse(`Cheque not found with id of ${req.params.id}`, 404))
+
 
     res.status(200).json({ success: true, data: cheque })
 })
-
-
 
 // @desc    Create Cheque
 // @route   POST /api/v1/users/:userId/cheques
 // @access  Private
 exports.createCheque = asyncHandler(async (req, res, next) => {
-    console.log('createCheque')
 
     req.body.user = req.params.userId
     const user = await User.findById(req.params.userId)

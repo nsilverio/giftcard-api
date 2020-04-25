@@ -20,7 +20,7 @@ const companies = require('./routes/companies')
 const merchants = require('./routes/merchants')
 const users = require('./routes/users')
 const cheques = require('./routes/cheques')
-const redeems = require('./routes/redeems')
+const redemptions = require('./routes/redemptions')
 const auth = require('./routes/auth')
 
 // Initialize express instance
@@ -46,7 +46,7 @@ app.use('/api/v1/companies', companies)
 app.use('/api/v1/merchants', merchants)
 app.use('/api/v1/users', users)
 app.use('/api/v1/cheques', cheques)
-app.use('/api/v1/redeems', redeems)
+app.use('/api/v1/redemptions', redemptions)
 app.use('/api/v1/auth', auth)
 
 

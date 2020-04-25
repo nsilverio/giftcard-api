@@ -19,7 +19,7 @@ const advancedResults = require('../middleware/advancedResults')
 
 // Include other resource routers
 const chequeRouter = require('./cheques')
-const reddemRouter = require('./redeems')
+const reddemRouter = require('./redemptions')
 
 const router = express.Router({ mergeParams: true })
 
@@ -28,21 +28,19 @@ const { protect, authorize } = require('../middleware/auth')
 
 // Re-route into another resources routers
 router.use('/:userId/cheques', chequeRouter)
-router.use('/:userId/redeems', reddemRouter)
+router.use('/:userId/redemptions', reddemRouter)
 
 router.route('/:id/photo').put(protect, authorize('user'), uploadPhoto(User, 'users'), userPhotoUpload)
 
-
-
 router
     .route('/')
-    .get(protect, authorize('administrator', 'root', 'user'), advancedResults(User, 'users'), getUsers)
+    .get(protect, authorize('root'), advancedResults(User, 'users'), getUsers)
     .post(protect, authorize('administrator', 'root'), createUser)
 
 router
     .route('/:id')
     .get(protect, authorize('administrator', 'root', 'user'), getUser)
-    .put(protect, authorize('administrator', 'user'), updateUser)
+    .put(protect, authorize('administrator', 'root', 'user'), updateUser)
     .delete(protect, authorize('administrator', 'root'), deleteUser)
 
 

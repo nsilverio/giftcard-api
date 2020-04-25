@@ -24,24 +24,24 @@ const reddemRouter = require('./redemptions')
 const router = express.Router({ mergeParams: true })
 
 // add protection to routes where user needs to be authorized
-const { protect, authorize } = require('../middleware/auth')
+const { protect, authorize, checkDomainOwnership } = require('../middleware/auth')
 
 // Re-route into another resources routers
 router.use('/:userId/cheques', chequeRouter)
 router.use('/:userId/redemptions', reddemRouter)
 
-router.route('/:id/photo').put(protect, authorize('user'), uploadPhoto(User, 'users'), userPhotoUpload)
+router.route('/:id/photo').put(protect, authorize('user'), checkDomainOwnership(User), uploadPhoto(User, 'users'), userPhotoUpload)
 
 router
     .route('/')
-    .get(protect, authorize('root'), advancedResults(User, 'users'), getUsers)
-    .post(protect, authorize('administrator', 'root'), createUser)
+    .get(protect, authorize('root', 'administrator'), checkDomainOwnership(User), advancedResults(User, 'users'), getUsers)
+    .post(protect, authorize('administrator', 'root'), checkDomainOwnership(User), createUser)
 
 router
     .route('/:id')
-    .get(protect, authorize('administrator', 'root', 'user'), getUser)
-    .put(protect, authorize('administrator', 'root', 'user'), updateUser)
-    .delete(protect, authorize('administrator', 'root'), deleteUser)
+    .get(protect, authorize('administrator', 'root', 'user'), checkDomainOwnership(User), getUser)
+    .put(protect, authorize('administrator', 'root', 'user'), checkDomainOwnership(User), updateUser)
+    .delete(protect, authorize('administrator', 'root'), checkDomainOwnership(User), deleteUser)
 
 
 module.exports = router

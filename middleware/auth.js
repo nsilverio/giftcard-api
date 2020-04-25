@@ -49,49 +49,6 @@ exports.authorize = (...roles) => {
     }
 }
 
-exports.checkExistenceOwnership = model =>
-    asyncHandler(async (req, res, next) => {
-        let resource = await model.findById(req.params.id);
-        // Check that resource exists
-        if (!resource) {
-            return next(
-                new ErrorResponse(`Resource not found with id:${req.params.id}`, 404)
-            );
-        }
-        // If resource exists, make sure user owns the resource, unless they're admin
-        if (req.user.role !== 'admin' && resource.user.toString() !== req.user.id) {
-            return next(
-                new ErrorResponse(
-                    `You don't have permission to modify this resource`,
-                    401
-                )
-            );
-        }
-        next();
-    });
-
-
-
-exports.checkDomain = model =>
-    asyncHandler(async (req, res, next) => {
-        let resource = await model.findById(req.params.id);
-        // Check that resource exists
-        if (!resource) {
-            return next(
-                new ErrorResponse(`Resource not found with id:${req.params.id}`, 404)
-            );
-        }
-        // If resource exists, make sure user requesting is part of company domain
-        if ((req.user.role === 'administrator' || req.user.role === 'user') && req.params.id !== req.user.company.toString()) {
-            return next(
-                new ErrorResponse(
-                    `You don't have permission access this company resource`,
-                    401
-                )
-            );
-        }
-        next();
-    });
 
 
 

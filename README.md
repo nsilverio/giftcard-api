@@ -7,6 +7,7 @@ npm init
 ```
 
 2. Install dependencies:
+
    - Express: Node.js web application framework
    - Dotenv: zero-dependency module that loads environment variables from a .env file into process.env
    - Morgan: HTTP request logger middleware for node.js used to log morgan stream data
@@ -19,9 +20,10 @@ npm init
    - JSON web token: is a compact URL-safe means of representing claims to be transferred between two parties
    - Bcryptjs: encryption for passwords
    - Cookie parser: Parse Cookie header and populate req.cookies with an object keyed by the cookie names
+   - Nodemailer : node.js module to send emails.
 
 ```
-npm i express dotenv morgan mongoose colors slugify randexp express-fileupload xlsx jsonwebtoken bcryptjs cookie-parser
+npm i express dotenv morgan mongoose colors slugify randexp express-fileupload xlsx jsonwebtoken bcryptjs cookie-parser nodemailer
 
 ```
 

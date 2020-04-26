@@ -74,7 +74,7 @@ exports.checkDomainOwnership = model =>
         if (req.params.userId) {
             const user = await User.findById(req.params.userId)
             if (!user) {
-                new ErrorResponse(`User not found with id:${req.params.id}`, 404)
+                new ErrorResponse(`User not found with id: ${req.params.id}`, 404)
             }
 
             // validate company domain for administrators and users 
@@ -93,23 +93,27 @@ exports.checkDomainOwnership = model =>
 
         //get byId: administrators, users 
         if (req.params.id) {
+
             let resource = await model.findById(req.params.id)
 
             if (!resource) {
                 return next(
-                    new ErrorResponse(`Resource not found with id:${req.params.id}`, 404)
+                    new ErrorResponse(`Resource not found with id: ${req.params.id}`, 404)
                 )
             }
 
             // validate company domain
-            if (req.user.company.toString() !== resource.company.toString()) {
+            if (!checkCompanyDomain(resource.company.toString())) {
                 return next(new ErrorResponse(`User not authorized to access this company domain 3`, 401))
             }
 
             // validate user domain
             if (req.user.role === 'user') {
 
-                if (resource.user.toString() !== req.user._id.toString()) {
+                // validate resource type 
+                const userId = model.collection.collectionName === 'users' ? resource._id.toString() : resource.user.toString();
+
+                if (!checkUserDomain(userId)) {
                     return next(new ErrorResponse(`User not authorized to access this user domain 4`, 401))
                 }
             }

@@ -30,7 +30,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please add a password'],
-        minlength: 6,
+        minlength: [6, 'Password must have at least 6 characteres'],
         select: false
     },
     resetPasswordToken: String,
@@ -89,7 +89,7 @@ UserSchema.methods.getResetPasswordToken = function () {
     // hash token and set to resetPasswordToken field
     this.resetPasswordToken = crypto
         .createHash('sha256')
-        .update('resetToken')
+        .update(resetToken)
         .digest('hex')
 
     //Set expire to 10 minutes

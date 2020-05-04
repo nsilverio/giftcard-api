@@ -1,17 +1,27 @@
 const advancedResults = (model, populate) => async (req, res, next) => {
 
-
     // Copy req.query
     const reqQuery = { ...req.query }
 
     // Fields to exclude
     const removeFields = ['select', 'sort', 'page', 'limit']
 
-    // Loop over removeFields and delete them from the reqQuery
-    removeFields.forEach(param => delete reqQuery[param])
+
+    // adds userID to queryString
+    if (req.params.userId) {
+        reqQuery.user = req.params.userId
+    }
+    // adds companyId to queryString
+    reqQuery.company = req.user.company
+
 
     // Create query string
     let queryString = JSON.stringify(reqQuery)
+    queryString.user = req.params.userId
+
+    // Loop over removeFields and delete them from the reqQuery
+    removeFields.forEach(param => delete reqQuery[param])
+
 
     // Create operators ($gt, $gte etc)
     queryString = queryString.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)

@@ -9,26 +9,9 @@ const asyncHandler = require('../middleware/async')
 // @route   GET /api/v1/redemptions
 // @access  Public
 exports.getRedemptions = asyncHandler(async (req, res, next) => {
-    let redemptions
-    if (req.params.userId) {
-        redemptions = await Redemption.find({ user: req.params.userId });
 
-        return res.status(200).json({
-            success: true,
-            count: redemptions.length,
-            data: redemptions
-        });
-    } else if (req.params.companyId) {
-        redemptions = await Redemption.find({ company: req.params.companyId });
+    res.status(200).json(res.advancedResults)
 
-        return res.status(200).json({
-            success: true,
-            count: redemptions.length,
-            data: redemptions
-        });
-    } else {
-        res.status(200).json(res.advancedResults);
-    }
 })
 
 // @desc    Get redemption

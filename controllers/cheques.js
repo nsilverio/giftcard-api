@@ -14,6 +14,17 @@ const XLSX = require('xlsx');
 // @route   GET /api/v1/cheques
 // @access  Public
 exports.getCheques = asyncHandler(async (req, res, next) => {
+
+    res.status(200).json(res.advancedResults);
+
+})
+
+// @desc    Get cheques
+// @route   GET /api/v1/users/:userId/cheques
+// @route   GET /api/v1/companies/:companyId/cheques
+// @route   GET /api/v1/cheques
+// @access  Public
+/* exports.getCheques = asyncHandler(async (req, res, next) => {
     let cheques
     if (req.params.userId) {
         cheques = await Cheque.find({ user: req.params.userId });
@@ -35,7 +46,7 @@ exports.getCheques = asyncHandler(async (req, res, next) => {
     else {
         res.status(200).json(res.advancedResults);
     }
-})
+}) */
 
 // @desc    Get cheque
 // @route   GET /api/v1/cheques/:id

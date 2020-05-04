@@ -17,15 +17,19 @@ const { protect, authorize, checkDomainOwnership } = require('../middleware/auth
 // when more than 1 url param is possible to the same route, mergeParams must to be set to true
 const router = express.Router({ mergeParams: true })
 
+router.use(protect)
+router.use(authorize('user'))
+router.use(checkDomainOwnership(Redemption))
+
 router
     .route('/')
-    .get(protect, authorize('user'), checkDomainOwnership(Redemption), advancedResults(Redemption, 'redemptions'), getRedemptions)
-    .post(protect, authorize('user'), checkDomainOwnership(Redemption), createRedemption)
+    .get(advancedResults(Redemption, 'redemptions'), getRedemptions)
+    .post(createRedemption)
 
 router
     .route('/:id')
-    .get(protect, authorize('user'), checkDomainOwnership(Redemption), getRedemption)
-    .put(protect, authorize('user'), checkDomainOwnership(Redemption), updateRedemption)
+    .get(getRedemption)
+    .put(updateRedemption)
 
 
 module.exports = router;

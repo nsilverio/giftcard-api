@@ -5,6 +5,7 @@ const User = require('../models/User')
 
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
+
     let token;
 
     if (
@@ -41,6 +42,7 @@ exports.protect = asyncHandler(async (req, res, next) => {
 
 // Grant access to specifi roles
 exports.authorize = (...roles) => {
+
     return (req, res, next) => {
         if (!roles.includes(req.user.role)) {
             return next(new ErrorResponse(`User role ${req.user.role} not authorized to access this route`, 403));
@@ -48,9 +50,6 @@ exports.authorize = (...roles) => {
         next()
     }
 }
-
-
-
 
 exports.checkDomainOwnership = model =>
     asyncHandler(async (req, res, next) => {

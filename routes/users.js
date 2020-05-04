@@ -43,7 +43,7 @@ router
 router
     .route('/:id')
     .get(authorize('administrator', 'root', 'user'), getUser)
-    .put(authorize('administrator', 'root', 'user'), updateUser)
+    .put(authorize('administrator', 'root'), updateUser)
     .delete(authorize('administrator', 'root'), deleteUser)
 
 

@@ -21,10 +21,10 @@ npm init
    - Bcryptjs: encryption for passwords
    - Cookie parser: Parse Cookie header and populate req.cookies with an object keyed by the cookie names
    - Nodemailer : node.js module to send emails.
+   - Express mongo sanitize: prevent noSQL injections
 
 ```
-npm i express dotenv morgan mongoose colors slugify randexp express-fileupload xlsx jsonwebtoken bcryptjs cookie-parser nodemailer
-
+npm i express dotenv morgan mongoose colors slugify node-geocoder express-fileupload jsonwebtoken bcryptjs cookie-parser nodemailer express-mongo-sanitize
 ```
 
 3. Install nodemon as dev dependency

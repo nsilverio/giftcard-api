@@ -14,6 +14,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     // adds companyId to queryString
     reqQuery.company = req.user.company
 
+    console.log(reqQuery)
 
     // Create query string
     let queryString = JSON.stringify(reqQuery)
@@ -62,6 +63,7 @@ const advancedResults = (model, populate) => async (req, res, next) => {
 
     // Executing query
     const results = await query
+    console.log(results)
 
     // Pagination result
     const pagination = {}

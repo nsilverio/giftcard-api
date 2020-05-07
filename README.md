@@ -24,9 +24,11 @@ npm init
 - Express mongo sanitize: prevent noSQL injections
 - Helmet: secure Express apps by setting various HTTP headers
 - XSS-clean: sanitize user input coming from POST body, GET queries, and url params
+- Express rate limit: Basic IP rate-limiting middleware for Express. Use to limit repeated requests to public APIs and/or endpoints such as password reset.
+- CORS: CORS support midddleware
 
 ```
-npm i express dotenv morgan mongoose colors slugify node-geocoder express-fileupload jsonwebtoken bcryptjs cookie-parser nodemailer express-mongo-sanitize helmet xss-clean
+npm i express dotenv morgan mongoose colors slugify node-geocoder express-fileupload jsonwebtoken bcryptjs cookie-parser nodemailer express-mongo-sanitize helmet xss-clean express-rate-limit hpp cors
 ```
 
 3. Install nodemon as dev dependency

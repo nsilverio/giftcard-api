@@ -7,6 +7,10 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     const removeFields = ['select', 'sort', 'page', 'limit']
 
 
+    /* validates if model requires domain / user validation (Merchant)
+    // 
+    if(collection.collectionName !== '')
+    */
     // adds userID to queryString
     if (req.params.userId) {
         reqQuery.user = req.params.userId
@@ -14,7 +18,6 @@ const advancedResults = (model, populate) => async (req, res, next) => {
     // adds companyId to queryString
     reqQuery.company = req.user.company
 
-    console.log(reqQuery)
 
     // Create query string
     let queryString = JSON.stringify(reqQuery)

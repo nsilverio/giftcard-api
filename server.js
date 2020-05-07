@@ -8,6 +8,8 @@ const cookieParser = require('cookie-parser')
 const errorHandler = require('./middleware/error')
 const connectDB = require('./config/db')
 const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
+const xss = require('xss-clean')
 
 
 // Load env vars
@@ -44,6 +46,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // sanitize data & prevent noSQL injection
 app.use(mongoSanitize())
+
+// set security headers
+app.use(helmet())
+
+// prevent XSS attacks
+app.use(xss())
 
 // Mount routers
 app.use('/api/v1/companies', companies)

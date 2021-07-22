@@ -36,7 +36,7 @@
     "randexp": "^0.5.3",
     "read-excel-file": "^4.0.6",
     "slugify": "^1.4.0",
-    "xlsx": "^0.15.6",
+    "xlsx": "^0.17.0",
     "xss-clean": "^0.1.1"
   },
   "devDependencies": {
